@@ -27,6 +27,7 @@ Enforces incremental C++ development by requiring compilation verification after
 - Hard block on errors - must fix before continuing
 - Auto-detects refactoring mode (defers builds until complete)
 - Triggers cmake configure on new files or package config changes
+- **Multi-agent coordination with serialized build queue**
 - Works together with cpp-build-optimizer for filtered output
 
 **Trigger Conditions:**
@@ -40,6 +41,8 @@ Enforces incremental C++ development by requiring compilation verification after
 | vcpkg.json / conanfile / CMakeLists.txt changed | Configure + Build |
 
 **Core Rule:** `Build Failed → STOP → Fix → Rebuild → Pass → Continue`
+
+**Multi-Agent:** When multiple agents work in parallel, builds are serialized via FIFO queue. Each agent announces `[BUILD QUEUE/START/DONE]` and holds the slot until compilation passes.
 
 ## Installation
 

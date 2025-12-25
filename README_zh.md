@@ -27,6 +27,7 @@ Token 高效的 C++ 编译输出过滤器，支持 CMake/vcpkg/MSVC/GCC/Clang。
 - 错误时硬性阻止 - 必须修复后才能继续
 - 自动检测重构模式（延迟到重构完成后再验证）
 - 新文件或包配置变更时触发 cmake configure
+- **多智能体协调，序列化编译队列**
 - 与 cpp-build-optimizer 协同工作，输出过滤
 
 **触发条件：**
@@ -40,6 +41,8 @@ Token 高效的 C++ 编译输出过滤器，支持 CMake/vcpkg/MSVC/GCC/Clang。
 | vcpkg.json / conanfile / CMakeLists.txt 变更 | Configure + 编译 |
 
 **核心规则：** `编译失败 → 停止 → 修复 → 重新编译 → 通过 → 继续`
+
+**多智能体：** 当多个智能体并行工作时，编译通过 FIFO 队列序列化。每个智能体通过 `[BUILD QUEUE/START/DONE]` 通信，持有编译槽直到编译通过。
 
 ## 安装
 
